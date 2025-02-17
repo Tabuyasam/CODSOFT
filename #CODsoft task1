@@ -1,0 +1,73 @@
+#CODsoft 
+import os
+
+tasks = []
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def show_menu():
+    clear_screen()
+    print("To-Do List Application")
+    print("1. Add New Task")
+    print("2. View All Tasks")
+    print("3. Mark Task as Completed")
+    print("4. Remove Task")
+    print("5. Exit")
+
+def add_task():
+    task_name = input("Enter the task description: ")
+    tasks.append({"task": task_name, "completed": False})
+    input("Task added successfully! Press Enter to continue...")
+
+def list_tasks():
+    clear_screen()
+    if tasks:
+        print("Your To-Do List:")
+        for idx, task in enumerate(tasks, 1):
+            status = "Completed" if task["completed"] else "Pending"
+            print(f"{idx}. {task['task']} - Status: {status}")
+    else:
+        print("Your to-do list is empty.")
+    input("Press Enter to return to the menu...")
+
+def complete_task():
+    list_tasks()
+    try:
+        task_number = int(input("Enter the task number to mark as completed: ")) - 1
+        if 0 <= task_number < len(tasks):
+            tasks[task_number]["completed"] = True
+            input("Task marked as completed! Press Enter to continue...")
+        else:
+            input("Invalid task number! Press Enter to try again...")
+    except ValueError:
+        input("Invalid input! Press Enter to try again...")
+
+def delete_task():
+    list_tasks()
+    try:
+        task_number = int(input("Enter the task number to remove: ")) - 1
+        if 0 <= task_number < len(tasks):
+            del tasks[task_number]
+            input("Task removed successfully! Press Enter to continue...")
+        else:
+            input("Invalid task number! Press Enter to try again...")
+    except ValueError:
+        input("Invalid input! Press Enter to try again...")
+
+while True:
+    show_menu()
+    choice = input("Enter your choice (1/2/3/4/5): ")
+
+    if choice == '1':
+        add_task()
+    elif choice == '2':
+        list_tasks()
+    elif choice == '3':
+        complete_task()
+    elif choice == '4':
+        delete_task()
+    elif choice == '5':
+        break
+    else:
+        input("Invalid choice. Press Enter to try again...")
