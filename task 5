@@ -1,0 +1,82 @@
+class Person:
+    def __init__(self, full_name, phone_number, email_address, home_address):
+        self.full_name = full_name
+        self.phone_number = phone_number
+        self.email_address = email_address
+        self.home_address = home_address
+
+class AddressBook:
+    def __init__(self):
+        self.contacts_list = []
+
+    def add_person(self, person):
+        self.contacts_list.append(person)
+
+    def display_contacts(self):
+        for person in self.contacts_list:
+            print(f"Name: {person.full_name}, Phone: {person.phone_number}")
+
+    def find_person(self, search_query):
+        results = [person for person in self.contacts_list if search_query.lower() in person.full_name.lower()]
+        if results:
+            print("Found contacts:")
+            for person in results:
+                print(f"Name: {person.full_name}, Phone: {person.phone_number}")
+        else:
+            print("No contacts found matching that query.")
+
+    def modify_contact(self, name, updated_phone):
+        for person in self.contacts_list:
+            if person.full_name.lower() == name.lower():
+                person.phone_number = updated_phone
+                print(f"Phone number for {person.full_name} has been updated.")
+                break
+        else:
+            print(f"No contact found for {name}.")
+
+    def remove_contact(self, name):
+        self.contacts_list = [person for person in self.contacts_list if person.full_name.lower() != name.lower()]
+        print(f"{name} has been removed from the address book.")
+
+def main():
+    address_book = AddressBook()
+
+    while True:
+        print("\nAddress Book Menu:")
+        print("1. Add a New Contact")
+        print("2. View All Contacts")
+        print("3. Search for a Contact")
+        print("4. Update Contact Information")
+        print("5. Delete a Contact")
+        print("6. Exit")
+
+        option = input("Select an option (1-6): ")
+
+        if option == "1":
+            name = input("Enter the person's full name: ")
+            phone = input("Enter the phone number: ")
+            email = input("Enter the email address: ")
+            address = input("Enter the home address: ")
+            new_contact = Person(name, phone, email, address)
+            address_book.add_person(new_contact)
+            print(f"{name} has been added to your address book.")
+        elif option == "2":
+            address_book.display_contacts()
+        elif option == "3":
+            query = input("Enter name or phone number to search: ")
+            address_book.find_person(query)
+        elif option == "4":
+            name_to_update = input("Enter the name of the contact to update: ")
+            new_phone_number = input("Enter the new phone number: ")
+            address_book.modify_contact(name_to_update, new_phone_number)
+        elif option == "5":
+            name_to_delete = input("Enter the name of the contact to delete: ")
+            address_book.remove_contact(name_to_delete)
+        elif option == "6":
+            print("Exiting the address book. Goodbye!")
+            break
+        else:
+            print("Invalid option. Please choose a valid number between 1 and 6.")
+
+if __name__ == "__main__":
+    main()
